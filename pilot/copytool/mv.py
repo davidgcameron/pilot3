@@ -7,7 +7,7 @@
 # Authors:
 # - Paul Nilsson, paul.nilsson@cern.ch, 2017-2021
 # - Tobias Wegner, tobias.wegner@cern.ch, 2018
-# - David Cameron, david.cameron@cern.ch, 2018-2019
+# - David Cameron, david.cameron@cern.ch, 2018-2022
 
 import os
 import re
@@ -45,12 +45,6 @@ def create_output_list(files, init_dir, ddmconf):
         else:
             # Add ARC options to TURL
             checksumtype, checksum = list(fspec.checksum.items())[0]  # Python 2/3
-            # resolve token value from fspec.ddmendpoint
-            token = ddmconf.get(fspec.ddmendpoint).token
-            if not token:
-                logger.info('No space token info for %s', fspec.ddmendpoint)
-            else:
-                arcturl = re.sub(r'((:\d+)/)', r'\2;autodir=no;spacetoken=%s/' % token, arcturl)
             arcturl += ':checksumtype=%s:checksumvalue=%s' % (checksumtype, checksum)
 
         logger.info('Adding to output.list: %s %s', fspec.lfn, arcturl)
